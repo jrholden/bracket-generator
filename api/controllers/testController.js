@@ -8,11 +8,20 @@ function createTest(){
 
 exports.test_function = (req, res) => {
     //res.send('This is a test function');
-    const testInstance = createTest();
-    testInstance.save((err) => {
-        if (err) console.log("ERROR:: " + err );
-        console.log("SAVED");
-    });
+    console.log(req.body);
+    try {
+        res.status(200).json({
+            data: "it worked"
+        });
+    } catch (err) {
+        res.status(400).json({
+            message: "Some error occured",
+            err
+        });
+    }
+
+};
+exports.test_functionTwo = (req, res) => {
     try {
         res.status(200).json({
             data: players
@@ -23,4 +32,5 @@ exports.test_function = (req, res) => {
             err
         });
     }
-};
+
+}
