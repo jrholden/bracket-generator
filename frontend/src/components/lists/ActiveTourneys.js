@@ -8,8 +8,11 @@ class ActiveTourneys extends React.Component {
         this.state = {
             tournaments: []
         }
+    }
+
+    componentDidMount() {
         const self = this;
-        TournamentService.getTournaments().then(function(tournaments){
+        TournamentService.getTournaments().then(function (tournaments) {
             self.setState({
                 tournaments: tournaments
             })
@@ -18,12 +21,16 @@ class ActiveTourneys extends React.Component {
 
     render() {
         let list = [];
-        console.log(this.state.tournaments);
         if ((this.state.tournaments).length < 1) {
             list.push(<p key='0'>No Active Tournaments</p>);
         } else {
             this.state.tournaments.forEach((tournament) => {
-                list.push(<p key={(tournament._id).toString()}>{tournament.title}</p>)
+                list.push(
+                    <div key={(tournament._id).toString()}>
+                        <p >Title: {tournament.title}</p>
+                        <p>PlayerCount: </p>
+                    </div>
+                )
             })
         }
         return (
@@ -33,4 +40,6 @@ class ActiveTourneys extends React.Component {
             </div>
         )
     }
-}export default ActiveTourneys;
+}
+
+export default ActiveTourneys;
