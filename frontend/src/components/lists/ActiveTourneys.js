@@ -26,9 +26,10 @@ class ActiveTourneys extends React.Component {
         } else {
             this.state.tournaments.forEach((tournament) => {
                 list.push(
-                    <div key={(tournament._id).toString()}>
-                        <p >Title: {tournament.title}</p>
-                        <p>PlayerCount: </p>
+                    <div key={(tournament.tournament._id).toString()}>
+                        <p >Title: {tournament.tournament.title}</p>
+                        <p>PlayerCount: {tournament.usersObj.playerCount}</p>
+                        <p>Creator: {tournament.creatorObj.name}</p>
                     </div>
                 )
             })

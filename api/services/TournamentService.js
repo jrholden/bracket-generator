@@ -31,9 +31,64 @@ exports.saveTournament = (data, callback) => {
     });
 }
 exports.getTournaments = (callback) => {
-    TournamentModel.find(function(error, results){
-        if(error) return callback(error);
-        return callback(null, results);
+    return getTournamentsPromise().then(function (tournaments) {
+        let promises = [];
+
+        tournaments.forEach((tournament) => {
+            promises.push(getCreatorPromise(tournament.creatorId));
+            promises.push(getUsersObjPromise(tournament.playersObjId));
+        });
+        return getOnePromiseForMany(promises, tournaments)
+    }).then(function (data) {
+        let results = data.res;
+        let tournaments = data.original;
+        let index = 0;
+        let object = [];
+        tournaments.forEach((tournament) => {
+            object.push({tournament: tournament, usersObj: results[index+1], creatorObj: results[index] })
+            index += 2;
+        })
+        console.log(object);
+        callback(null, object);
+    }).catch(error => {
+        callback(Error("could not get tournaments:: "+ error.message));
+    })
+}
+
+function getOnePromiseForMany(promises, originalObj){
+    return new Promise(function (resolve, reject) {
+        Promise.all(promises).then(function(response){
+            resolve({res: response, original: originalObj});
+        }).catch(error => {
+            reject(error);
+        });
+    });
+}
+
+function getTournamentsPromise() {
+    return new Promise(function (resolve, reject) {
+        TournamentModel.find(function (error, results) {
+            if (error) reject(error);
+            resolve(results);
+        });
+    });
+}
+
+function getCreatorPromise(userId) {
+    return new Promise(function (resolve, reject) {
+        UserService.getUserFromId(userId, function (error, user) {
+            if (error) reject(error);
+            resolve(user);
+        });
+    });
+}
+
+function getUsersObjPromise(usersObjId) {
+    return new Promise(function (resolve, reject) {
+        UsersObjService.getUsersObjFromId(usersObjId, function (error, usersObj) {
+            if (error) reject(error);
+            resolve(usersObj);
+        });
     });
 }
 

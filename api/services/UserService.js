@@ -19,3 +19,12 @@ exports.saveUser = (data, callback) => {
 exports.doesUserExist = () => {
     return false;
 }
+exports.getUserFromId = (userId, callback) => {
+    UserModel.findById(userId, function (error, user){
+        if(error) {
+            console.log(error);
+            return callback ( Error ("Could Not Find User:: " + error.message) );
+        }
+        return callback (null, user);
+    });
+}

@@ -1,4 +1,5 @@
 const UsersObjModel = require('../database/models/UsersObj');
+const {Error} = require("mongoose");
 
 exports.saveUsersObj = (data, callback) => {
     console.log(data);
@@ -13,5 +14,11 @@ exports.saveUsersObj = (data, callback) => {
         }
         console.log(usersObj);
         return callback ( null, usersObj );
+    });
+}
+exports.getUsersObjFromId = (usersObjId, callback) => {
+    UsersObjModel.findById(usersObjId, function(error, usersObj){
+       if (error) return callback(Error("Cannot find USERSOBJ from ID :: "+ error.message));
+       return callback(null, usersObj);
     });
 }
