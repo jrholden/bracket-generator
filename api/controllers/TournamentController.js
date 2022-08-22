@@ -1,13 +1,10 @@
 const constants = require('../constants');
 const Test = require(constants.paths.models.test);
-const players = require("../database/test-db");
 const TournamentService = require('../services/TournamentService');
-
-
 
 exports.saveTournament = (req, res) => {
     try {
-        TournamentService.saveTournament(req.body, function(error){
+        TournamentService.saveTournament(req.body, function(error, data){
             if( error ){
                 return res.status(422).json({
                     res: false,
@@ -15,8 +12,10 @@ exports.saveTournament = (req, res) => {
                 })
             }
             res.status(200).json({
-                res: true
+                res: data
             });
+        }).then(function(){
+
         });
     } catch (err) {
         res.status(400).json({

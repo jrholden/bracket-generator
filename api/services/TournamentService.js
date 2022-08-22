@@ -5,7 +5,6 @@ const Promise = require('promise');
 
 exports.saveTournament = (data, callback) => {
     //validate data
-    console.log(data);
     const {tourneyName, creatorName, playerCount} = data;
     //TODO -> if user exists use that id in TournamentModel
     let userPromise, usersObjPromise;
@@ -23,8 +22,7 @@ exports.saveTournament = (data, callback) => {
         userId = user._id;
         return getSaveTournamentPromise({title: tourneyName, creatorId: userId, playersObjId: usersObjId})
     }).then(function (data) {
-        console.log(data);
-        return callback(null);
+        return callback(null,data);
     }).catch(error => {
         console.log(error);
         return callback(Error("New tournament could not be saved:: " + error.message));
@@ -48,7 +46,7 @@ exports.getTournaments = (callback) => {
             object.push({tournament: tournament, usersObj: results[index+1], creatorObj: results[index] })
             index += 2;
         })
-        console.log(object);
+        //console.log(object);
         callback(null, object);
     }).catch(error => {
         callback(Error("could not get tournaments:: "+ error.message));

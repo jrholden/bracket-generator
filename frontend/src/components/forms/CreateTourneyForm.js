@@ -9,6 +9,7 @@ class CreateTourneyForm extends React.Component {
             creatorName: '',
             playerCount: ''
         }
+        this.socket = props.socket;
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,10 +23,9 @@ class CreateTourneyForm extends React.Component {
         });
     }
     handleSubmit(event) {
-        alert("Tournament Name: " + this.state.tourneyName + "\n" + "Created by: " + this.state.creatorName + "\n" + "Total Players: "+this.state.playerCount);
         event.preventDefault();
         console.log(this.state);
-        TournamentService.saveTournament(this.state);
+        TournamentService.saveTournament(this.state, this.socket);
     }
     render() {
         return (

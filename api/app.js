@@ -25,13 +25,20 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-require('./routes.js')(app);
+require('./routes.js')(app)
 
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
+require('./socketHandler')(io);
 
-
-app.listen(port, function() {
+server.listen(port, function() {
   console.log("Running on " + port);
 });
 
-module.exports = app;
+module.exports = {server, io};

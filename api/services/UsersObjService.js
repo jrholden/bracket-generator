@@ -2,7 +2,7 @@ const UsersObjModel = require('../database/models/UsersObj');
 const {Error} = require("mongoose");
 
 exports.saveUsersObj = (data, callback) => {
-    console.log(data);
+    //console.log(data);
     const { playerCount } = data;
     const usersObj = new UsersObjModel({
         playerCount: playerCount
@@ -12,7 +12,7 @@ exports.saveUsersObj = (data, callback) => {
             console.log(error);
             return callback( Error ("UserObj could not be saved:: " + error.message) );
         }
-        console.log(usersObj);
+        //console.log(usersObj);
         return callback ( null, usersObj );
     });
 }

@@ -2,7 +2,7 @@
 const UserModel =  require('../database/models/User');
 
 exports.saveUser = (data, callback) => {
-    console.log(data);
+    //console.log(data);
     const name = data.creatorName;
     const user = new UserModel({
         name: name

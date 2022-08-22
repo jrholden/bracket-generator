@@ -1,7 +1,9 @@
 import config from '../config';
+import ErrorService from "./ErrorService";
+import SocketService from "./SocketService";
 
 class TournamentService {
-    static saveTournament(data){
+    static saveTournament(data, socket){
         // Send data to the backend via POST
         fetch(config.apiUrl+"/tournament/save", {
             method: 'POST',
@@ -13,6 +15,12 @@ class TournamentService {
             return res.json();
         }).then(function(data){
             console.log(data.res);
+            socket.sendNewTourney(data.res._id);
+
+        }).catch(err => {
+
+        }).finally( function() {
+            console.log("Is this hit?: ");
         })
     }
     static getTournaments(){
@@ -25,6 +33,12 @@ class TournamentService {
         }).then(function(data){
             console.log(data.res);
             return data.res;
+        }).catch(err => {
+            ErrorService.handleError(err);
+            //return empty because something went wrong
+            return [];
+        }).finally( function() {
+            //stop loaders
         })
     }
 }
