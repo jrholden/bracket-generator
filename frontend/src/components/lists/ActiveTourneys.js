@@ -26,18 +26,26 @@ class ActiveTourneys extends React.Component {
         } else {
             this.state.tournaments.forEach((tournament) => {
                 list.push(
-                    <div key={(tournament.tournament._id).toString()}>
-                        <p >Title: {tournament.tournament.title}</p>
-                        <p>PlayerCount: {tournament.usersObj.playerCount}</p>
-                        <p>Creator: {tournament.creatorObj.name}</p>
+                    <div key={(tournament.tournament._id).toString()} className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div className="card">
+                            <img className="card-img-top" src="" alt="Card cap"/>
+                            <div className="card-body">
+                                <h5 className="card-title">{tournament.tournament.title}</h5>
+                                <p className="card-text">PlayerCount: {tournament.usersObj.playerCount}</p>
+                                <p className="card-text">PlayerCount: {tournament.creatorObj.name}</p>
+                                <a className="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
                     </div>
                 )
             })
         }
         return (
-            <div>
+            <div className={'container text-center'}>
                 <h1>Active Tournaments</h1>
-                {list}
+                <div className={"row align-items-center"}>
+                    {list}
+                </div>
             </div>
         )
     }
