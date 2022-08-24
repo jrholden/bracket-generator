@@ -29,7 +29,6 @@ class TournamentService {
         }).then(function(res){
             return res.json();
         }).then(function(data){
-            console.log(data.res);
             return data.res;
         }).catch(err => {
             ErrorService.handleError(err);

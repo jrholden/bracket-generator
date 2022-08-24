@@ -4,8 +4,8 @@ import {Link} from "react-router-dom";
 class TourneyCard extends React.Component {
     constructor(props) {
         super(props);
-        this.tournament = props.tournament
-        this.url = "/tourney/"+this.tournament.tournament._id;
+        this.fullTournament = props.fullTournament
+        this.url = "/tourney/"+this.fullTournament.tournament._id;
     }
     render(){
         return (
@@ -13,9 +13,9 @@ class TourneyCard extends React.Component {
                 <div className="card">
                     <img className="card-img-top" src="" alt="Card cap"/>
                     <div className="card-body">
-                        <h5 className="card-title">{this.tournament.tournament.title}</h5>
-                        <p className="card-text">PlayerCount: {this.tournament.usersObj.playerCount}</p>
-                        <p className="card-text">PlayerCount: {this.tournament.creatorObj.name}</p>
+                        <h5 className="card-title">{this.fullTournament.tournament.title}</h5>
+                        <p className="card-text">PlayerCount: {this.fullTournament.usersObj.playerCount}</p>
+                        <p className="card-text">PlayerCount: {this.fullTournament.creatorObj.name}</p>
                         <Link to={this.url} className="btn btn-primary">View Tournament</Link>
                     </div>
                 </div>
