@@ -1,9 +1,10 @@
 
 import React from 'react';
+import ActiveTourneys from "./lists/ActiveTourneys";
 class Tourney extends React.Component {
     render(){
         return (
-            <h1>This is Tourney</h1>
+            <ActiveTourneys/>
         )
     }
 }

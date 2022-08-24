@@ -6,6 +6,12 @@ import './index.css';
 import App from './App';
 import Profile from "./components/Profile";
 import Tourney from "./components/Tourney";
+import Tournament from "./components/Tournament";
+import SocketService from "./services/SocketService";
+
+let socket = new SocketService();
+socket.connect();
+socket.listen();
 
 const routes = (
     <React.StrictMode>
@@ -25,7 +31,7 @@ const routes = (
                                     <Link className="nav-link" to="/">Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/tourney">Tournament</Link>
+                                    <Link className="nav-link" to="/tourney">Tournaments</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/profile">Profile</Link>
@@ -40,9 +46,10 @@ const routes = (
                     </div>
                 </nav>
                 <Routes>
-                    <Route exact path="/" element={<App/>}/>
-                    <Route path="/tourney" element={<Tourney/>}/>
-                    <Route path="/profile" element={<Profile/>}/>
+                    <Route exact path="/" element={<App socket={socket}/>}/>
+                    <Route path="/tourney" element={<Tourney socket={socket} />}/>
+                    <Route path="/profile" element={<Profile socket={socket} />}/>
+                    <Route exact path="/tourney/:id" element={<Tournament socket={socket} />}  />
                 </Routes>
             </div>
         </Router>
@@ -51,4 +58,5 @@ const routes = (
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(routes);

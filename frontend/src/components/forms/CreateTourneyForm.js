@@ -24,7 +24,6 @@ class CreateTourneyForm extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state);
         TournamentService.saveTournament(this.state, this.socket);
     }
     render() {
