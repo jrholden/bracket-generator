@@ -14,9 +14,7 @@ exports.saveTournament = (req, res) => {
             res.status(200).json({
                 res: data
             });
-        }).then(function(){
-
-        });
+        })
     } catch (err) {
         res.status(400).json({
             res: false,
@@ -45,4 +43,27 @@ exports.getTournaments = (req, res) => {
         });
     }
 
-}
+};
+exports.getOneTournament = (req, res) => {
+    try {
+        let id = req.params.id;
+        TournamentService.getOneTournament(id, function(error,tournament){
+            if(error){
+                return res.status(422).json({
+                    res: false,
+                    error
+                })
+            }
+            console.log(tournament);
+            res.status(200).json({
+                res: tournament
+            });
+        })
+    } catch (err) {
+        res.status(400).json({
+            res: false,
+            err
+        });
+    }
+
+};

@@ -8,4 +8,6 @@ const TournamentController = require('../controllers/TournamentController');
 router.post('/save', TournamentController.saveTournament);
 router.get('/get', TournamentController.getTournaments);
 
+router.get('/get/:id', TournamentController.getOneTournament);
+
 module.exports = router;

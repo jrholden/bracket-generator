@@ -9,8 +9,8 @@ exports.saveUser = (data, callback) => {
     });
     user.save(function (error, user){
         if (error) {
-            console.log(error);
-            return callback( Error ("User could not be saved:: " + error.message) );
+            console.log("UserSaveError:: "+error);
+            return callback( new Error ("User could not be saved:: " + error.message) );
         }
         return callback ( null, user );
     });
@@ -23,7 +23,7 @@ exports.getUserFromId = (userId, callback) => {
     UserModel.findById(userId, function (error, user){
         if(error) {
             console.log(error);
-            return callback ( Error ("Could Not Find User:: " + error.message) );
+            return callback ( new Error ("Could Not Find User:: " + error.message) );
         }
         return callback (null, user);
     });
