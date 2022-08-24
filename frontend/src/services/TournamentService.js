@@ -1,5 +1,6 @@
 import config from '../config';
 import ErrorService from "./ErrorService";
+import TestService from "./TestService";
 
 class TournamentService {
     static saveTournament(data, socket){
@@ -39,13 +40,14 @@ class TournamentService {
         })
     }
     static getOneTournament(id){
-        return fetch(config.apiUrl+"/tournament/get/id", {
+        return fetch(config.apiUrl+"/tournament/get/"+id, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
             mode: 'cors'
         }).then(function (res){
             return res.json();
         }).then(function (data){
+            if(!TestService.testData(data.res, 'tournament')) return false;
             return data.res;
         }).catch(err => {
             ErrorService.handleError(err);

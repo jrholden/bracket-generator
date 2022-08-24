@@ -1,5 +1,5 @@
 class ErrorService {
     static handleError(error){
-        console.log(error);
+        console.error(error);
     }
 }export default ErrorService
