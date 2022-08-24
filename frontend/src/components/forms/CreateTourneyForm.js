@@ -26,8 +26,10 @@ class CreateTourneyForm extends React.Component {
     clearForm(){
         let keys = Object.keys(this.state)
         keys.forEach((key) => {
-            this.state[key] = '';
-        })
+            this.setState({
+              [key]: ''
+            });
+        });
     }
 
     handleSubmit(event) {
