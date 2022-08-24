@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Tourney from "./components/Tourney";
 import Tournament from "./components/Tournament";
 import SocketService from "./services/SocketService";
+import Admin from "./components/Admin";
 
 let socket = new SocketService();
 socket.connect();
@@ -50,6 +51,7 @@ const routes = (
                     <Route path="/tourney" element={<Tourney socket={socket} />}/>
                     <Route path="/profile" element={<Profile socket={socket} />}/>
                     <Route exact path="/tourney/:id" element={<Tournament socket={socket} />}  />
+                    <Route exact path="/admin/" element={<Admin socket={socket} />}  />
                 </Routes>
             </div>
         </Router>
