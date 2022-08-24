@@ -12,16 +12,19 @@ class TournamentService {
             body: JSON.stringify(data) // body data type must match "Content-Type" header
 
         }).then(function (res) {
-            return res.json();
+            if(!res.ok){
+                let message = "Server Failed to Save Tournament::" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            }else{return res.json();}
         }).then(function(data){
             if(!TestService.testData(data.res, '_id', "Save Tournament Return Data BAD")) return false;
             socket.sendNewTourney(data.res._id);
-
+            return true;
         }).catch(err => {
             ErrorService.handleError(err, "Error Saving New Tournament");
             return false;
         }).finally( function() {
-            return true;
+            //we get here even on error
         })
     }
     static getTournaments(){
@@ -30,7 +33,10 @@ class TournamentService {
             headers: {'Content-Type': 'application/json'},
             mode: 'cors',
         }).then(function(res){
-            return res.json();
+            if(!res.ok){
+                let message = "Server Failed to Get Tournaments::" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            }else{return res.json();}
         }).then(function(data){
             if(!TestService.testData(data.res[0], 'tournament', "Tournaments Object Invalid")) return false;
             return data.res;
@@ -48,7 +54,10 @@ class TournamentService {
             headers: {'Content-Type': 'application/json'},
             mode: 'cors'
         }).then(function (res){
-            return res.json();
+            if(!res.ok){
+                let message = "Server Failed to Get Tournament::" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            }else{return res.json();}
         }).then(function (data){
             if(!TestService.testData(data.res, 'tournament', "getOneTournament Data Invalid")) return false;
             return data.res;

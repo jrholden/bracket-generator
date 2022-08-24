@@ -15,6 +15,7 @@ class CreateTourneyForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleChange(event) {
         const target = event.target;
         const name = target.name;
@@ -23,50 +24,48 @@ class CreateTourneyForm extends React.Component {
             [name]: value
         });
     }
-    clearForm(){
+
+    clearForm() {
         let keys = Object.keys(this.state)
         keys.forEach((key) => {
             this.setState({
-              [key]: ''
+                [key]: ''
             });
         });
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        if(TournamentService.saveTournament(this.state, this.socket)){
-            this.clearForm();
-            this.error = false
-        }else{
-            this.error = true;
-        }
+        let self = this;
+        TournamentService.saveTournament(this.state, this.socket).then(function (success) {
+            self.error = !success;
+            self.clearForm();
+            alert("Error Saving Tournament!");
+        })
     }
+
     render() {
-
-        if(this.error){
-            return <h1>ERROR SAVING TOURNEY</h1>
-        }else {
-
-            return (
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Tournament Name:
-                        <input type="text" name="tourneyName" value={this.state.tourneyName}
-                               onChange={this.handleChange}/>
-                    </label>
-                    <label>
-                        Creator Name:
-                        <input type="text" name="creatorName" value={this.state.creatorName}
-                               onChange={this.handleChange}/>
-                    </label>
-                    <label>
-                        Total Player Count:
-                        <input type="number" name="playerCount" value={this.state.playerCount}
-                               onChange={this.handleChange}/>
-                    </label>
-                    <input type="submit" value="Submit"/>
-                </form>
-            );
-        }
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Tournament Name:
+                    <input type="text" name="tourneyName" value={this.state.tourneyName}
+                           onChange={this.handleChange}/>
+                </label>
+                <label>
+                    Creator Name:
+                    <input type="text" name="creatorName" value={this.state.creatorName}
+                           onChange={this.handleChange}/>
+                </label>
+                <label>
+                    Total Player Count:
+                    <input type="number" name="playerCount" value={this.state.playerCount}
+                           onChange={this.handleChange}/>
+                </label>
+                <input type="submit" value="Submit"/>
+            </form>
+        );
     }
-}export default CreateTourneyForm;
+}
+
+export default CreateTourneyForm;
