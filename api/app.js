@@ -22,23 +22,23 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 app.use(logger('dev'));
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 require('./routes.js')(app)
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
 });
 
 require('./socketHandler')(io);
 
-server.listen(port, function() {
-  console.log("Running on " + port);
+server.listen(port, function () {
+    console.log("Running on " + port);
 });
 
 module.exports = {server, io};

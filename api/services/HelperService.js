@@ -1,6 +1,5 @@
-
 //object should be -> {key:{**}}
-exports.combineObjects = (...objects) =>{
+exports.combineObjects = (...objects) => {
     let combined = {};
     objects.forEach((object) => {
         let key = Object.keys(object)[0];

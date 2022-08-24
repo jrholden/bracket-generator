@@ -4,9 +4,9 @@ const UserService = require("./UserService");
 const UsersObjService = require("./UsersObjService");
 
 
-exports.getOnePromiseForMany = (promises, originalObj) =>{
+exports.getOnePromiseForMany = (promises, originalObj) => {
     return new Promise(function (resolve, reject) {
-        Promise.all(promises).then(function(response){
+        Promise.all(promises).then(function (response) {
             resolve({res: response, original: originalObj});
         }).catch(error => {
             reject(error);
@@ -15,8 +15,8 @@ exports.getOnePromiseForMany = (promises, originalObj) =>{
 }
 exports.getTournamentPromise = (id) => {
     return new Promise(function (resolve, reject) {
-        TournamentModel.findById(id, function(err, tournament){
-            if(err) reject(err);
+        TournamentModel.findById(id, function (err, tournament) {
+            if (err) reject(err);
             resolve(tournament);
         })
     });

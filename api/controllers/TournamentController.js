@@ -4,8 +4,8 @@ const TournamentService = require('../services/TournamentService');
 
 exports.saveTournament = (req, res) => {
     try {
-        TournamentService.saveTournament(req.body, function(error, data){
-            if( error ){
+        TournamentService.saveTournament(req.body, function (error, data) {
+            if (error) {
                 return res.status(422).json({
                     res: false,
                     error
@@ -25,8 +25,8 @@ exports.saveTournament = (req, res) => {
 };
 exports.getTournaments = (req, res) => {
     try {
-        TournamentService.getTournaments(function(error, tournaments){
-            if(error){
+        TournamentService.getTournaments(function (error, tournaments) {
+            if (error) {
                 return res.status(422).json({
                     res: false,
                     error
@@ -47,8 +47,8 @@ exports.getTournaments = (req, res) => {
 exports.getOneTournament = (req, res) => {
     try {
         let id = req.params.id;
-        TournamentService.getOneTournament(id, function(error,tournament){
-            if(error){
+        TournamentService.getOneTournament(id, function (error, tournament) {
+            if (error) {
                 return res.status(422).json({
                     res: false,
                     error

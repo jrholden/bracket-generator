@@ -13,6 +13,7 @@ Frontend
 
 
 TODO::
+    Add AdminPage to Frontend
     delete tourney
     update tourney
     generate tourney (single elim first)

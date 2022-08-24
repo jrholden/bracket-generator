@@ -1,5 +1,4 @@
-
-const UserModel =  require('../database/models/User');
+const UserModel = require('../database/models/User');
 
 exports.saveUser = (data, callback) => {
     //console.log(data);
@@ -7,12 +6,12 @@ exports.saveUser = (data, callback) => {
     const user = new UserModel({
         name: name
     });
-    user.save(function (error, user){
+    user.save(function (error, user) {
         if (error) {
-            console.log("UserSaveError:: "+error);
-            return callback( new Error ("User could not be saved:: " + error.message) );
+            console.log("UserSaveError:: " + error);
+            return callback(new Error("User could not be saved:: " + error.message));
         }
-        return callback ( null, user );
+        return callback(null, user);
     });
 }
 //TODO
@@ -20,11 +19,11 @@ exports.doesUserExist = () => {
     return false;
 }
 exports.getUserFromId = (userId, callback) => {
-    UserModel.findById(userId, function (error, user){
-        if(error) {
+    UserModel.findById(userId, function (error, user) {
+        if (error) {
             console.log(error);
-            return callback ( new Error ("Could Not Find User:: " + error.message) );
+            return callback(new Error("Could Not Find User:: " + error.message));
         }
-        return callback (null, user);
+        return callback(null, user);
     });
 }

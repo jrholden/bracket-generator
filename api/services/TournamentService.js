@@ -19,9 +19,13 @@ exports.saveTournament = (data, callback) => {
         return userPromise;
     }).then(function (user) {
         userId = user._id;
-        return PromiseService.getSaveTournamentPromise({title: tourneyName, creatorId: userId, playersObjId: usersObjId})
+        return PromiseService.getSaveTournamentPromise({
+            title: tourneyName,
+            creatorId: userId,
+            playersObjId: usersObjId
+        })
     }).then(function (data) {
-        return callback(null,data);
+        return callback(null, data);
     }).catch(error => {
         console.log(error);
         return callback(Error("New tournament could not be saved:: " + error.message));
@@ -42,20 +46,20 @@ exports.getTournaments = (callback) => {
         let index = 0;
         let object = [];
         tournaments.forEach((tournament) => {
-            object.push({tournament: tournament, usersObj: results[index+1], creatorObj: results[index] })
+            object.push({tournament: tournament, usersObj: results[index + 1], creatorObj: results[index]})
             index += 2;
         })
         callback(null, object);
     }).catch(error => {
-        callback(Error("could not get tournaments:: "+ error.message));
+        callback(Error("could not get tournaments:: " + error.message));
     })
 }
 exports.getOneTournament = (id, callback) => {
-    PromiseService.getTournamentPromise(id).then(function(rawTourney){
-       let promises = [PromiseService.getCreatorPromise(rawTourney.creatorId),PromiseService.getUsersObjPromise(rawTourney.playersObjId)];
-       return PromiseService.getOnePromiseForMany(promises, rawTourney);
-    }).then(function(data){
-        callback(null, HelperService.combineObjects({tournament:data.original},{creatorObj:data.res[0]},{usersObj:data.res[1]}));
+    PromiseService.getTournamentPromise(id).then(function (rawTourney) {
+        let promises = [PromiseService.getCreatorPromise(rawTourney.creatorId), PromiseService.getUsersObjPromise(rawTourney.playersObjId)];
+        return PromiseService.getOnePromiseForMany(promises, rawTourney);
+    }).then(function (data) {
+        callback(null, HelperService.combineObjects({tournament: data.original}, {creatorObj: data.res[0]}, {usersObj: data.res[1]}));
     }).catch(error => {
         console.log(error);
         callback(error);
