@@ -24,7 +24,8 @@ class ActiveTourneys extends React.Component {
         let list = [];
         if ((this.state.tournaments).length < 1) {
             list.push(<p key='0'>No Active Tournaments</p>);
-        } else {
+        }else if(!this.state.tournaments){list.push(<p key='0'>Error getting Tournaments!!</p>)}
+        else {
             this.state.tournaments.forEach((fullTournament) => {
                 list.push(
                     <TourneyCard key={(fullTournament.tournament._id).toString()} fullTournament={fullTournament}/>
