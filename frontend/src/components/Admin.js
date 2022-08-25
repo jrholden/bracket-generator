@@ -8,6 +8,9 @@ class Admin extends React.Component {
         this.state = {
             authorized: false
         };
+
+        this.deleteEverything = this.deleteEverything.bind(this);
+        this.deleteAllTourneys = this.deleteAllTourneys.bind(this);
     }
 
     componentDidMount() {
@@ -20,11 +23,32 @@ class Admin extends React.Component {
             });
         })
     }
+    deleteAllTourneys(){
+        AdminService.deleteAllTourneys().then(function(deleteCount){
+            if(deleteCount){
+                alert("DELETED ALL TOURNEYS:: COUNT:: "+deleteCount);
+            }else{
+                alert("Could not delete all tourneys");
+            }
+        })
+    }
+    deleteEverything(){
+        AdminService.deleteAllData().then(function(deleteCountObj){
+            if(deleteCountObj){
+                alert("DELETED EVERYTHING\nTournaments: "+deleteCountObj.tourneys+"\nUsers: "+deleteCountObj.users+"\nUsersObjects: "+deleteCountObj.usersObj);
+            }else{
+                alert("Could not delete EVERYTHING");
+            }
+        })
+    }
 
     render() {
         if (this.state.authorized) {
             return (
-                <h1>Admin Page:: You are allowed!!</h1>
+                <div className={"container-fluid"}>
+                    <button onClick={this.deleteEverything} type="button" className="btn btn-danger">Delete EVERYTHING</button>
+                    <button onClick={this.deleteAllTourneys} type="button" className="btn btn-danger">Delete ALL TOURNEYS</button>
+                </div>
             )
         } else {
             return (

@@ -91,3 +91,28 @@ exports.getDeleteOnePromise = (id) => {
         })
     })
 }
+
+exports.getDeleteManyUsersPromise = (filterObj) => {
+    return new Promise(function (resolve,reject){
+        UserService.deleteManyUsers(filterObj, function(err, deletedCount){
+            if (err) reject(err);
+            else resolve(deletedCount);
+        })
+    })
+}
+exports.getDeleteManyUsersObjPromise = (filterObj) => {
+    return new Promise(function (resolve,reject){
+        UsersObjService.deleteManyUsersObjs(filterObj, function(err, deletedCount){
+            if (err) reject(err);
+            else resolve(deletedCount);
+        })
+    })
+}
+exports.getDeleteManyTourneysPromise = (filterObj) => {
+    return new Promise(function (resolve,reject){
+        TournamentModel.deleteMany(filterObj, function(err, deletedCount){
+            if (err) reject(err);
+            else resolve(deletedCount);
+        })
+    })
+}

@@ -1,5 +1,6 @@
 const UsersObjModel = require('../database/models/UsersObj');
 const {Error} = require("mongoose");
+const UserModel = require("../database/models/User");
 
 exports.saveUsersObj = (data, callback) => {
 
@@ -20,4 +21,10 @@ exports.getUsersObjFromId = (usersObjId, callback) => {
         if (error) return callback(new Error("Cannot find USERSOBJ from ID :: " + error.message));
         return callback(null, usersObj);
     });
+}
+exports.deleteManyUsersObjs = (filterObj,callback) => {
+    UsersObjModel.deleteMany(filterObj, function(err, deletedCount){
+        if (err) callback(err);
+        else callback(null, deletedCount);
+    })
 }

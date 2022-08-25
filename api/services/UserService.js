@@ -1,4 +1,5 @@
 const UserModel = require('../database/models/User');
+const TournamentModel = require("../database/models/Tournament");
 
 exports.saveUser = (data, callback) => {
     //console.log(data);
@@ -26,4 +27,10 @@ exports.getUserFromId = (userId, callback) => {
         }
         return callback(null, user);
     });
+}
+exports.deleteManyUsers = (filterObj,callback) => {
+    UserModel.deleteMany(filterObj, function(err, deletedCount){
+        if (err) callback(err);
+        else callback(null, deletedCount);
+    })
 }

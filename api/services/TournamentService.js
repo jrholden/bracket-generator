@@ -27,7 +27,6 @@ exports.saveTournament = (data, callback) => {
     }).then(function (data) {
         return callback(null, data);
     }).catch(error => {
-        console.log(error);
         return callback(Error("New tournament could not be saved:: " + error.message));
     });
 }
@@ -61,7 +60,6 @@ exports.getOneTournament = (id, callback) => {
     }).then(function (data) {
         callback(null, HelperService.combineObjects({tournament: data.original}, {creatorObj: data.res[0]}, {usersObj: data.res[1]}));
     }).catch(error => {
-        console.log(error);
         callback(error);
     });
 }
@@ -70,7 +68,6 @@ exports.deleteOneTournament = (id, callback) => {
         console.log("DELETED:: "+deletedDoc);
         callback(null, true);
     }).catch(error => {
-        console.log(error);
         callback(error);
     })
 }

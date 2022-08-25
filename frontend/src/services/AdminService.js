@@ -21,8 +21,46 @@ class AdminService {
         }).catch(err => {
             ErrorService.handleError(err, "Error Saving New Tournament");
             return false;
-        }).finally(function () {
-            //we get here even on error
+        })
+    }
+    static deleteAllTourneys() {
+        return fetch(config.apiUrl + "/admin/deleteAllTourneys", {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            mode: 'cors'
+
+        }).then(function (res) {
+            if (!res.ok) {
+                let message = "Server Failed to delete all tourneys" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            } else {
+                return res.json();
+            }
+        }).then(function (data) {
+            return data.res;
+        }).catch(err => {
+            ErrorService.handleError(err, "Error DELETING ALL TOURNEYS");
+            return false;
+        })
+    }
+    static deleteAllData() {
+        return fetch(config.apiUrl + "/admin/deleteAllData", {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            mode: 'cors'
+
+        }).then(function (res) {
+            if (!res.ok) {
+                let message = "Server Failed to DELETE EVERYTHING" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            } else {
+                return res.json();
+            }
+        }).then(function (data) {
+            return data.res;
+        }).catch(err => {
+            ErrorService.handleError(err, "Error Saving New Tournament");
+            return false;
         })
     }
 }
