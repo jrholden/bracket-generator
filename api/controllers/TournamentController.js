@@ -54,7 +54,6 @@ exports.getOneTournament = (req, res) => {
                     error
                 })
             }
-            console.log(tournament);
             res.status(200).json({
                 res: tournament
             });
@@ -67,3 +66,25 @@ exports.getOneTournament = (req, res) => {
     }
 
 };
+//DOES NOT DELETE creatorOBJ or USERSOBJ
+exports.deleteTournament = (req,res) => {
+    try{
+        let id = req.params.id;
+        TournamentService.deleteOneTournament(id, function (error, success) {
+            if (error) {
+                return res.status(422).json({
+                    res: false,
+                    error
+                })
+            }
+            res.status(200).json({
+                res: success
+            });
+        })
+    }catch (err) {
+        res.status(400).json({
+            res: false,
+            err
+        });
+    }
+}

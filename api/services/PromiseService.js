@@ -83,3 +83,11 @@ exports.getSaveUsersObjPromise = (data) => {
         });
     })
 }
+exports.getDeleteOnePromise = (id) => {
+    return new Promise(function (resolve,reject){
+        TournamentModel.findByIdAndDelete(id, function(err, deletedDoc){
+            if (err) reject(err);
+            else resolve(deletedDoc);
+        })
+    })
+}

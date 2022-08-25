@@ -23,8 +23,6 @@ class TournamentService {
         }).catch(err => {
             ErrorService.handleError(err, "Error Saving New Tournament");
             return false;
-        }).finally( function() {
-            //we get here even on error
         })
     }
     static getTournaments(){
@@ -44,8 +42,6 @@ class TournamentService {
             ErrorService.handleError(err, "Error getting Tournament");
             //return empty because something went wrong
             return [];
-        }).finally( function() {
-            //stop loaders
         })
     }
     static getOneTournament(id){
@@ -67,6 +63,29 @@ class TournamentService {
         }).finally(function (){
 
         })
+    }
+    static deleteTournament(id){
+        return fetch(config.apiUrl + "/tournament/delete/"+id, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            mode: 'cors'
+
+        }).then(function (res) {
+            if (!res.ok) {
+                let message = "Server Failed to Delete Tournament" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            } else {
+                return res.json();
+            }
+        }).then(function (data) {
+            return data.res;
+        }).catch(err => {
+            ErrorService.handleError(err, "Error Saving New Tournament");
+            return false;
+        })
+    }
+    static deleteTournaments(){
+
     }
 }
 export default TournamentService;

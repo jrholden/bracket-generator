@@ -65,6 +65,15 @@ exports.getOneTournament = (id, callback) => {
         callback(error);
     });
 }
+exports.deleteOneTournament = (id, callback) => {
+    PromiseService.getDeleteOnePromise(id).then(function(deletedDoc){
+        console.log("DELETED:: "+deletedDoc);
+        callback(null, true);
+    }).catch(error => {
+        console.log(error);
+        callback(error);
+    })
+}
 
 
 

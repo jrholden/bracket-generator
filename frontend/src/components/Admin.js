@@ -1,5 +1,6 @@
 import React from 'react';
 import AdminService from "../services/AdminService";
+import TokenHelper from "../auth/TokenHelper";
 
 class Admin extends React.Component {
     constructor(props) {
@@ -7,12 +8,13 @@ class Admin extends React.Component {
         this.state = {
             authorized: false
         };
-        this.token = {secret: '12345'};
     }
 
     componentDidMount() {
+        TokenHelper.setTokenThenFreeze({secret: '12345'});
+        let token = TokenHelper.getToken();
         let self = this;
-        AdminService.authAdmin(this.token).then(function (isAuthed) {
+        AdminService.authAdmin(token).then(function (isAuthed) {
             self.setState({
                 authorized: isAuthed
             });

@@ -16,6 +16,7 @@ class CreateTourneyForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
     handleChange(event) {
         const target = event.target;
         const name = target.name;
