@@ -55,7 +55,7 @@ exports.deleteAllData = (req, res) => {
             }
             console.log(deletedCount);
             res.status(200).json({
-                res: deletedCount
+                res: `${deletedCount}`
             });
         });
     } catch (err) {

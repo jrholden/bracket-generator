@@ -1,11 +1,13 @@
 import ErrorService from "./ErrorService";
 
 class TestService {
-    static testData(object, propString, errMessage){
+    static testData(object, propString, errMessage, suppressError){
         try{
             return object[propString];
         }catch (err) {
-            ErrorService.handleError(err, errMessage);
+            if(!suppressError) {
+                ErrorService.handleError(err, errMessage);
+            }
             return false;
         }
     }

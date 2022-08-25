@@ -39,9 +39,14 @@ class CreateTourneyForm extends React.Component {
         event.preventDefault();
         let self = this;
         TournamentService.saveTournament(this.state, this.socket).then(function (success) {
+            console.log(success);
             self.error = !success;
             self.clearForm();
-            alert("Error Saving Tournament!");
+            if(!success) {
+                alert("Error Saving Tournament!");
+            }else{
+                alert("Tournament Saved!");
+            }
         })
     }
 

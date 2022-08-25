@@ -11,6 +11,7 @@ exports.saveTournament = (req, res) => {
                     error
                 })
             }
+
             res.status(200).json({
                 res: data
             });
@@ -31,6 +32,9 @@ exports.getTournaments = (req, res) => {
                     res: false,
                     error
                 })
+            }
+            if(tournaments.length < 1) {
+                tournaments=false;
             }
             res.status(200).json({
                 res: tournaments

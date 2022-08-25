@@ -14,9 +14,9 @@ exports.deleteAllData = (callback) => {
 
     PromiseService.getOnePromiseForMany(promises, {}).then(function (data) {
         let deletedCounts = {
-            tourneys: data.res[0],
-            users: data.res[1],
-            usersObj: data.res[2]
+            tourneys: data.res[0].deletedCount,
+            users: data.res[1].deletedCount,
+            usersObj: data.res[2].deletedCount
         };
 
         callback(null, deletedCounts);
@@ -26,7 +26,7 @@ exports.deleteAllData = (callback) => {
 }
 exports.deleteAllTourneys = (callback) => {
     PromiseService.getDeleteManyTourneysPromise({}).then(function (deletedCount) {
-        callback(null, deletedCount);
+        callback(null, deletedCount.deletedCount);
     }).catch(err => {
         callback(err);
     })

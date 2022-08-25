@@ -36,6 +36,8 @@ class TournamentService {
                 throw new Error(message);
             }else{return res.json();}
         }).then(function(data){
+            //no active tournaments
+            if(!data.res) return [];
             if(!TestService.testData(data.res[0], 'tournament', "Tournaments Object Invalid")) return false;
             return data.res;
         }).catch(err => {

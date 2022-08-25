@@ -25,7 +25,7 @@ class Admin extends React.Component {
     }
     deleteAllTourneys(){
         AdminService.deleteAllTourneys().then(function(deleteCount){
-            if(deleteCount){
+            if(deleteCount >= 0){
                 alert("DELETED ALL TOURNEYS:: COUNT:: "+deleteCount);
             }else{
                 alert("Could not delete all tourneys");
