@@ -35,7 +35,7 @@ class Admin extends React.Component {
     deleteEverything(){
         AdminService.deleteAllData().then(function(deleteCountObj){
             if(deleteCountObj){
-                alert("DELETED EVERYTHING\nTournaments: "+deleteCountObj.tourneys+"\nUsers: "+deleteCountObj.users+"\nUsersObjects: "+deleteCountObj.usersObj);
+                alert("DELETED EVERYTHING\nTournaments: "+deleteCountObj.tourneys+"\nUsers: "+deleteCountObj.users+"\nBracketects: "+deleteCountObj.bracket);
             }else{
                 alert("Could not delete EVERYTHING");
             }

@@ -1,4 +1,4 @@
-const BracketService = require('../services/BracketService');
+const BracketService = require('../services/BracketTreeService');
 
 exports.createBracket = (req,res) => {
     try {

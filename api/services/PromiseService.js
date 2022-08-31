@@ -1,7 +1,7 @@
 const Promise = require("promise");
 const TournamentModel = require("../database/models/Tournament");
 const UserService = require("./UserService");
-const UsersObjService = require("./UsersObjService");
+const BracketService = require("./BracketService");
 
 
 exports.getOnePromiseForMany = (promises, originalObj) => {
@@ -40,11 +40,11 @@ exports.getCreatorPromise = (userId) => {
     });
 }
 
-exports.getUsersObjPromise = (usersObjId) => {
+exports.getBracketPromise = (bracketId) => {
     return new Promise(function (resolve, reject) {
-        UsersObjService.getUsersObjFromId(usersObjId, function (error, usersObj) {
+        BracketService.getBracketFromId(bracketId, function (error, bracket) {
             if (error) reject(error);
-            resolve(usersObj);
+            resolve(bracket);
         });
     });
 }
@@ -74,12 +74,12 @@ exports.getSaveUserPromise = (data) => {
     });
 }
 
-exports.getSaveUsersObjPromise = (data) => {
+exports.getSaveBracketPromise = (data) => {
     const {playerCount} = data;
     return new Promise(function (resolve, reject) {
-        UsersObjService.saveUsersObj({playerCount}, function (err, usersObj) {
+        BracketService.saveBracket({playerCount}, function (err, bracket) {
             if (err) reject(err);
-            else resolve(usersObj);
+            else resolve(bracket);
         });
     })
 }
@@ -100,9 +100,9 @@ exports.getDeleteManyUsersPromise = (filterObj) => {
         })
     })
 }
-exports.getDeleteManyUsersObjPromise = (filterObj) => {
+exports.getDeleteManyBracketPromise = (filterObj) => {
     return new Promise(function (resolve,reject){
-        UsersObjService.deleteManyUsersObjs(filterObj, function(err, deletedCount){
+        BracketService.deleteManyBrackets(filterObj, function(err, deletedCount){
             if (err) reject(err);
             else resolve(deletedCount);
         })

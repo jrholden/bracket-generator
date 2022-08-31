@@ -5,7 +5,7 @@ import CreateTourneyForm from "./forms/CreateTourneyForm";
 class Brackets extends React.Component {
     constructor(props) {
         super(props);
-
+        this.socket = props.socket;
     }
 
     componentDidMount() {
@@ -14,7 +14,7 @@ class Brackets extends React.Component {
     render() {
         return (
             <div>
-                <CreateTourneyForm/>
+                <CreateTourneyForm socket={this.socket}/>
                 <BracketCard/>
             </div>
         )

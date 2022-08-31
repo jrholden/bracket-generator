@@ -1,23 +1,30 @@
-const Node = require('../tournament_tree/Node');
+const BracketModel = require('../database/models/Bracket');
+const {Error} = require("mongoose");
+const UserModel = require("../database/models/User");
 
-//Also easy!
-const config = require('../constants');
-const BracketTree = require("../tournament_tree/BracketTree");
+exports.saveBracket = (data, callback) => {
 
-exports.getBracket = (id) => {
-
+    const {playerCount} = data;
+    const bracket = new BracketModel({
+        playerCount: playerCount
+    });
+    bracket.save(function (error, bracket) {
+        if (error) {
+            console.log("BRACKET ERROR:: " + error);
+            return callback(new Error("UserObj could not be saved:: " + error.message));
+        }
+        return callback(null, bracket);
+    });
 }
-exports.getBrackets = () => {
-    console.log("bracketService");
+exports.getBracketFromId = (bracketId, callback) => {
+    BracketModel.findById(bracketId, function (error, bracket) {
+        if (error) return callback(new Error("Cannot find BRACKET from ID :: " + error.message));
+        return callback(null, bracket);
+    });
 }
-exports.createBracket = (props, callback) => {
-    let {playerCount, typeIndex} = props;
-    let type = config.bracket.tournamentTypes[typeIndex];
-    console.log("Players: "+playerCount+"\nType: "+type);
-    let bracket = new BracketTree({playerCount:playerCount, useStretch:true});
-
-    let matchUps = bracket.getAllMatches();
-    console.log(bracket.leaves);
-
-    callback(null, matchUps);
+exports.deleteManyBrackets = (filterObj,callback) => {
+    BracketModel.deleteMany(filterObj, function(err, deletedCount){
+        if (err) callback(err);
+        else callback(null, deletedCount);
+    })
 }

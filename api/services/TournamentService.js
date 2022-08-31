@@ -6,23 +6,23 @@ exports.saveTournament = (data, callback) => {
     //validate data
     const {tourneyName, creatorName, playerCount} = data;
     //TODO -> if user exists use that id in TournamentModel
-    let userPromise, usersObjPromise;
+    let userPromise, bracketPromise;
     if (UserService.doesUserExist()) {
         //use user ID
     } else {
         //create new user (guest)
         userPromise = PromiseService.getSaveUserPromise({creatorName});
     }
-    let userId, usersObjId;
-    PromiseService.getSaveUsersObjPromise({playerCount}).then(function (usersObj) {
-        usersObjId = usersObj._id;
+    let userId, bracketId;
+    PromiseService.getSaveBracketPromise({playerCount}).then(function (bracket) {
+        bracketId = bracket._id;
         return userPromise;
     }).then(function (user) {
         userId = user._id;
         return PromiseService.getSaveTournamentPromise({
             title: tourneyName,
             creatorId: userId,
-            playersObjId: usersObjId
+            playersObjId: bracketId
         })
     }).then(function (data) {
         return callback(null, data);
@@ -36,7 +36,7 @@ exports.getTournaments = (callback) => {
 
         tournaments.forEach((tournament) => {
             promises.push(PromiseService.getCreatorPromise(tournament.creatorId));
-            promises.push(PromiseService.getUsersObjPromise(tournament.playersObjId));
+            promises.push(PromiseService.getBracketPromise(tournament.playersObjId));
         });
         return PromiseService.getOnePromiseForMany(promises, tournaments)
     }).then(function (data) {
@@ -45,7 +45,7 @@ exports.getTournaments = (callback) => {
         let index = 0;
         let object = [];
         tournaments.forEach((tournament) => {
-            object.push({tournament: tournament, usersObj: results[index + 1], creatorObj: results[index]})
+            object.push({tournament: tournament, bracket: results[index + 1], creatorObj: results[index]})
             index += 2;
         })
         callback(null, object);
@@ -55,10 +55,10 @@ exports.getTournaments = (callback) => {
 }
 exports.getOneTournament = (id, callback) => {
     PromiseService.getTournamentPromise(id).then(function (rawTourney) {
-        let promises = [PromiseService.getCreatorPromise(rawTourney.creatorId), PromiseService.getUsersObjPromise(rawTourney.playersObjId)];
+        let promises = [PromiseService.getCreatorPromise(rawTourney.creatorId), PromiseService.getBracketPromise(rawTourney.playersObjId)];
         return PromiseService.getOnePromiseForMany(promises, rawTourney);
     }).then(function (data) {
-        callback(null, HelperService.combineObjects({tournament: data.original}, {creatorObj: data.res[0]}, {usersObj: data.res[1]}));
+        callback(null, HelperService.combineObjects({tournament: data.original}, {creatorObj: data.res[0]}, {bracket: data.res[1]}));
     }).catch(error => {
         callback(error);
     });

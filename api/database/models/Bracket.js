@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const UsersObjSchema = new Schema({
+const BracketSchema = new Schema({
     playerCount: {type: Number, required: true}
 });
 
-module.exports = mongoose.model('UsersObj', UsersObjSchema);
+module.exports = mongoose.model('Bracket', BracketSchema);

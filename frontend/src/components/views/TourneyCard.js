@@ -36,7 +36,7 @@ class TourneyCard extends React.Component {
                     <img className="card-img-top" src="" alt="Card cap"/>
                     <div className="card-body">
                         <h5 className="card-title">{this.fullTournament.tournament.title}</h5>
-                        <p className="card-text">PlayerCount: {this.fullTournament.usersObj.playerCount}</p>
+                        <p className="card-text">PlayerCount: {this.fullTournament.bracket.playerCount}</p>
                         <p className="card-text">Creator: {this.fullTournament.creatorObj.name}</p>
                         <Link to={this.url} className="btn btn-primary">View Tournament</Link>
                         {button}

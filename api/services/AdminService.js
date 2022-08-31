@@ -10,13 +10,13 @@ exports.deleteAllData = (callback) => {
     let filterObj = {};
     promises.push(PromiseService.getDeleteManyTourneysPromise(filterObj));
     promises.push(PromiseService.getDeleteManyUsersPromise(filterObj));
-    promises.push(PromiseService.getDeleteManyUsersObjPromise(filterObj));
+    promises.push(PromiseService.getDeleteManyBracketPromise(filterObj));
 
     PromiseService.getOnePromiseForMany(promises, {}).then(function (data) {
         let deletedCounts = {
             tourneys: data.res[0].deletedCount,
             users: data.res[1].deletedCount,
-            usersObj: data.res[2].deletedCount
+            bracket: data.res[2].deletedCount
         };
 
         callback(null, deletedCounts);

@@ -70,7 +70,7 @@ exports.getOneTournament = (req, res) => {
     }
 
 };
-//DOES NOT DELETE creatorOBJ or USERSOBJ
+//DOES NOT DELETE creatorOBJ or BRACKET
 exports.deleteTournament = (req,res) => {
     try{
         let id = req.params.id;
