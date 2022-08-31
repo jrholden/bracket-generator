@@ -9,5 +9,10 @@ module.exports = Object.freeze({
         models: {
             test: '../database/models/test'
         }
+    },
+    bracket:{
+        tournamentTypes: [
+            "Single Elimination"
+        ]
     }
 })
