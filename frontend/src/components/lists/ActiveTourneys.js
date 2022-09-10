@@ -21,7 +21,6 @@ class ActiveTourneys extends React.Component {
             });
             return AdminService.authAdmin(TokenHelper.getToken());
         }).then(function (isAdmin) {
-            console.log(isAdmin);
             self.setState({
                 isAdmin: isAdmin
             });

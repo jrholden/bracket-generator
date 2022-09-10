@@ -4,6 +4,7 @@ import TestService from "./TestService";
 
 class TournamentService {
     static saveTournament(data, socket){
+        let self = this;
         // Send data to the backend via POST
         return fetch(config.apiUrl+"/tournament/save", {
             method: 'POST',
@@ -17,14 +18,16 @@ class TournamentService {
                 throw new Error(message);
             }else{return res.json();}
         }).then(function(data){
+            self.id = data.res._id;
             return TestService.testData(data.res, '_id', "Save Tournament Return Data BAD");
+
         }).catch(err => {
             ErrorService.handleError(err, "Error Saving New Tournament");
             return false;
-        }).finally(function(data){
-            socket.sendNewTourney(data.res._id);
+        }).finally(function(){
+            socket.sendNewTourney(self.id);
         })
-    }
+}
     static getTournaments(){
         return fetch(config.apiUrl+"/tournament/get", {
             method: 'GET',

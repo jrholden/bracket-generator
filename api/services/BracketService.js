@@ -4,10 +4,8 @@ const UserModel = require("../database/models/User");
 
 exports.saveBracket = (data, callback) => {
 
-    const {playerCount} = data;
-    const bracket = new BracketModel({
-        playerCount: playerCount
-    });
+    console.log(data);
+    const bracket = new BracketModel(data);
     bracket.save(function (error, bracket) {
         if (error) {
             console.log("BRACKET ERROR:: " + error);
@@ -15,6 +13,13 @@ exports.saveBracket = (data, callback) => {
         }
         return callback(null, bracket);
     });
+}
+exports.getBrackets = (tournamentId, callback) => {
+    BracketModel.find({tournamentId: tournamentId}, function (error,brackets){
+        console.log(brackets);
+        if (error) callback(error);
+        else callback(null, brackets);
+    })
 }
 exports.getBracketFromId = (bracketId, callback) => {
     BracketModel.findById(bracketId, function (error, bracket) {

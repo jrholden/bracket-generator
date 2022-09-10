@@ -6,6 +6,7 @@ exports.saveTournament = (req, res) => {
     try {
         TournamentService.saveTournament(req.body, function (error, data) {
             if (error) {
+                console.log(error);
                 return res.status(422).json({
                     res: false,
                     error
@@ -27,6 +28,7 @@ exports.saveTournament = (req, res) => {
 exports.getTournaments = (req, res) => {
     try {
         TournamentService.getTournaments(function (error, tournaments) {
+            console.log(tournaments);
             if (error) {
                 return res.status(422).json({
                     res: false,
@@ -36,6 +38,7 @@ exports.getTournaments = (req, res) => {
             if(tournaments.length < 1) {
                 tournaments=false;
             }
+
             res.status(200).json({
                 res: tournaments
             });

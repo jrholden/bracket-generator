@@ -39,6 +39,14 @@ exports.getCreatorPromise = (userId) => {
         });
     });
 }
+exports.getBracketsPromise = (tournamentId) => {
+    return new Promise(function (resolve, reject) {
+        BracketService.getBrackets(tournamentId, function (error, brackets){
+            if (error) reject(error);
+            resolve(brackets);
+        })
+    })
+}
 
 exports.getBracketPromise = (bracketId) => {
     return new Promise(function (resolve, reject) {
@@ -50,13 +58,8 @@ exports.getBracketPromise = (bracketId) => {
 }
 
 exports.getSaveTournamentPromise = (data) => {
-    const {title, creatorId, playersObjId} = data;
     return new Promise(function (resolve, reject) {
-        const newTournament = new TournamentModel({
-            title: title,
-            creatorId: creatorId,
-            playersObjId: playersObjId
-        });
+        const newTournament = new TournamentModel(data);
         newTournament.save(function (error, newTournament) {
             if (error) reject(error);
             resolve(newTournament);
@@ -75,9 +78,8 @@ exports.getSaveUserPromise = (data) => {
 }
 
 exports.getSaveBracketPromise = (data) => {
-    const {playerCount} = data;
     return new Promise(function (resolve, reject) {
-        BracketService.saveBracket({playerCount}, function (err, bracket) {
+        BracketService.saveBracket(data, function (err, bracket) {
             if (err) reject(err);
             else resolve(bracket);
         });

@@ -1,10 +1,12 @@
 const UserService = require('../services/UserService');
 const PromiseService = require('./PromiseService');
 const HelperService = require("./HelperService");
+const BracketTreeService = require("./BracketTreeService");
 
 exports.saveTournament = (data, callback) => {
     //validate data
-    const {tourneyName, creatorName, playerCount} = data;
+    let tournamentData = null;
+    const {tourneyName, creatorName, playerCount, typeIndex} = data;
     //TODO -> if user exists use that id in TournamentModel
     let userPromise, bracketPromise;
     if (UserService.doesUserExist()) {
@@ -13,7 +15,33 @@ exports.saveTournament = (data, callback) => {
         //create new user (guest)
         userPromise = PromiseService.getSaveUserPromise({creatorName});
     }
-    let userId, bracketId;
+    userPromise.then(function (user){
+        return PromiseService.getSaveTournamentPromise({
+            title: tourneyName,
+            creatorId: user._id,
+            playerCount: playerCount
+        })
+    }).then(function(tournament){
+        tournamentData = tournament;
+        return PromiseService.getSaveBracketPromise({
+            tournamentId: tournament._id,
+            typeIndex: typeIndex,
+            //get player count dynamically
+            playerSlots: tournament.playerCount
+        })
+    }).then(function (bracket){
+        BracketTreeService.createBracket(bracket, function (err, bracketTree){
+            if (err){
+                callback(err);
+            }
+            console.log(bracketTree.leaves);
+        })
+        callback(null, tournamentData);
+    }).catch(err => {
+        callback(err);
+    })
+
+    /*let userId, bracketId;
     PromiseService.getSaveBracketPromise({playerCount}).then(function (bracket) {
         bracketId = bracket._id;
         return userPromise;
@@ -28,7 +56,7 @@ exports.saveTournament = (data, callback) => {
         return callback(null, data);
     }).catch(error => {
         return callback(Error("New tournament could not be saved:: " + error.message));
-    });
+    });*/
 }
 exports.getTournaments = (callback) => {
     PromiseService.getTournamentsPromise().then(function (tournaments) {
@@ -36,7 +64,7 @@ exports.getTournaments = (callback) => {
 
         tournaments.forEach((tournament) => {
             promises.push(PromiseService.getCreatorPromise(tournament.creatorId));
-            promises.push(PromiseService.getBracketPromise(tournament.playersObjId));
+            promises.push(PromiseService.getBracketsPromise(tournament._id));
         });
         return PromiseService.getOnePromiseForMany(promises, tournaments)
     }).then(function (data) {

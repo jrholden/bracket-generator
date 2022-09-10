@@ -7,13 +7,13 @@ class BracketCard extends React.Component {
 
     }
     componentDidMount() {
-        this.bracketProps = {
-            playerCount: 22,
+/*        this.bracketProps = {
+            playerCount: 1000,
             typeIndex: 0
         }
         BracketService.createBracket(this.bracketProps).then(function(data){
             console.log(data);
-        })
+        })*/
     }
     render() {
         return (<h1>Bracket Card</h1>)

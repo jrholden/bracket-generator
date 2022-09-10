@@ -5,7 +5,8 @@ const TournamentSchema = new Schema({
     title: {type: String, required: true},
     //desc: {type: String, required: false},
     creatorId: {type: Schema.Types.ObjectId, required: true},
-    playersObjId: {type: Schema.Types.ObjectId, required: true}
+    playerCount: {type: Number, required: true},
+    //playersObjId: {type: Schema.Types.ObjectId, required: true}
 });
 
 module.exports = mongoose.model('Tournament', TournamentSchema);

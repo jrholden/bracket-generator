@@ -8,7 +8,8 @@ class CreateTourneyForm extends React.Component {
         this.state = {
             tourneyName: '',
             creatorName: '',
-            playerCount: ''
+            playerCount: '',
+            typeIndex: 0
         }
         this.socket = props.socket;
 

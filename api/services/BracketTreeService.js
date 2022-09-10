@@ -11,13 +11,13 @@ exports.getBrackets = () => {
     console.log("bracketService");
 }
 exports.createBracket = (props, callback) => {
-    let {playerCount, typeIndex} = props;
+    let {playerSlots, typeIndex} = props;
     let type = config.bracket.tournamentTypes[typeIndex];
-    console.log("Players: "+playerCount+"\nType: "+type);
-    let bracket = new BracketTree({playerCount:playerCount, useStretch:true});
+    console.log("Players: "+playerSlots+"\nType: "+type);
+    let bracket = new BracketTree({playerCount:playerSlots, useStretch:true});
 
-    let matchUps = bracket.getAllMatches();
-    console.log(bracket.leaves);
+    //let matchUps = bracket.getAllMatches();
+    //console.log(bracket.leaves);
 
-    callback(null, matchUps);
+    callback(null, bracket);
 }
