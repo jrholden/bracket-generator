@@ -2,7 +2,26 @@ const Promise = require("promise");
 const TournamentModel = require("../database/models/Tournament");
 const UserService = require("./UserService");
 const BracketService = require("./BracketService");
+const NodeService = require("./NodeService");
 
+
+
+exports.getNodesPromise = (bracketId) => {
+    return new Promise(function (resolve, reject) {
+        NodeService.getNodes(bracketId, function (err, nodes) {
+            if (err) reject(err);
+            resolve(nodes);
+        })
+    });
+}
+exports.getSaveNodePromise = (node) => {
+    return new Promise(function (resolve, reject) {
+        NodeService.saveNode(node, function (err, nodes) {
+            if (err) reject(err);
+            resolve(nodes);
+        })
+    });
+}
 
 exports.getOnePromiseForMany = (promises, originalObj) => {
     return new Promise(function (resolve, reject) {

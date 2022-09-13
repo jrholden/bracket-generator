@@ -5,7 +5,6 @@ const BracketTreeService = require("./BracketTreeService");
 
 exports.saveTournament = (data, callback) => {
     //validate data
-    console.log(data);
     let tournamentData = null;
     const {tourneyName, creatorName, playerCount, typeIndex} = data;
     //TODO -> if user exists use that id in TournamentModel
@@ -36,8 +35,7 @@ exports.saveTournament = (data, callback) => {
                 callback(err);
                 return;
             }
-            //let arr = [];
-           // console.log(bracketTree.getNodesInOrder(bracketTree.rootNode, arr))
+            console.log(bracketTree);
         })
         callback(null, tournamentData);
     }).catch(err => {

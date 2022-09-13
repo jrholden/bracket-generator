@@ -174,9 +174,9 @@ class BracketTree {
             this.setRanks(current.left);
         }
         if (this.rank % 2 !== 0 && !current.isNull) {
-            current.playerId = this.fakeId;
+            current.playerId = null;
             current.winner = current.playerId;
-            this.fakeId++;
+            //this.fakeId++;
         }
         current.rank = this.rank;
         this.rank++;

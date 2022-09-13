@@ -9,3 +9,9 @@ exports.saveNode = (data, callback) => {
         else callback(null, node)
     })
 }
+exports.getNodes = (bracketId, callback) => {
+    NodeModel.find({bracketId: bracketId}, function (error,nodes){
+        if (error) callback(error);
+        else callback(null, nodes);
+    })
+}

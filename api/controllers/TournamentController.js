@@ -5,6 +5,7 @@ const TournamentService = require('../services/TournamentService');
 exports.saveTournament = (req, res) => {
     try {
         TournamentService.saveTournament(req.body, function (error, data) {
+            //console.log(data);
             if (error) {
                 console.log(error);
                 return res.status(422).json({
