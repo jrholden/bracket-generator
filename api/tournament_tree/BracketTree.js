@@ -154,6 +154,19 @@ class BracketTree {
             this.getNode(current.right, rank);
         }
     }
+    loadNodes(){
+
+    }
+    getNodesInOrder(current, nodeArray){
+        if(current.hasLeft()){
+            nodeArray = this.getNodesInOrder(current.left, nodeArray);
+        }
+        nodeArray.push(current.getNonCircular());
+        if(current.hasRight()){
+            nodeArray = this.getNodesInOrder(current.right,nodeArray);
+        }
+        return nodeArray;
+    }
 
     setRanks(current) {
         //LVR

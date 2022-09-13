@@ -10,7 +10,7 @@ class Node{
         this.isChildrenSet = false;
     }
     getNonCircular(){
-        let {parent, left, right, isChildrenSet,rank, ...nodeObj} = this;
+        let {parent, left, right, ...nodeObj} = this;
         return nodeObj;
     }
     areChildrenNull(){

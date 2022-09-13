@@ -5,6 +5,7 @@ const BracketTreeService = require("./BracketTreeService");
 
 exports.saveTournament = (data, callback) => {
     //validate data
+    console.log(data);
     let tournamentData = null;
     const {tourneyName, creatorName, playerCount, typeIndex} = data;
     //TODO -> if user exists use that id in TournamentModel
@@ -33,30 +34,15 @@ exports.saveTournament = (data, callback) => {
         BracketTreeService.createBracket(bracket, function (err, bracketTree){
             if (err){
                 callback(err);
+                return;
             }
-            console.log(bracketTree.leaves);
+            //let arr = [];
+           // console.log(bracketTree.getNodesInOrder(bracketTree.rootNode, arr))
         })
         callback(null, tournamentData);
     }).catch(err => {
         callback(err);
     })
-
-    /*let userId, bracketId;
-    PromiseService.getSaveBracketPromise({playerCount}).then(function (bracket) {
-        bracketId = bracket._id;
-        return userPromise;
-    }).then(function (user) {
-        userId = user._id;
-        return PromiseService.getSaveTournamentPromise({
-            title: tourneyName,
-            creatorId: userId,
-            playersObjId: bracketId
-        })
-    }).then(function (data) {
-        return callback(null, data);
-    }).catch(error => {
-        return callback(Error("New tournament could not be saved:: " + error.message));
-    });*/
 }
 exports.getTournaments = (callback) => {
     PromiseService.getTournamentsPromise().then(function (tournaments) {
