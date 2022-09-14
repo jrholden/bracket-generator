@@ -36,14 +36,16 @@ exports.createBracket = (props, callback) => {
     let type = config.bracket.tournamentTypes[typeIndex];
     let bracket = new BracketTree({playerCount:playerSlots, useStretch:true});
     bracket.bracketId = props._id;
+    bracket.init();
 
     this.saveTree(bracket, function(err, savedNodes) {
         if(err) {
             callback(err);
             return;
         }
-
-        console.log(savedNodes);
+        let testBracket = new BracketTree({playerCount:playerSlots, useStretch:true});
+        testBracket.loadNodes((savedNodes.length+1)/2, null,savedNodes,0);
+        console.log(testBracket.leaves);
         callback(null, bracket);
     });
 }

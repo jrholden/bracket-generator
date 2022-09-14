@@ -35,7 +35,7 @@ exports.saveTournament = (data, callback) => {
                 callback(err);
                 return;
             }
-            console.log(bracketTree);
+            //console.log(bracketTree);
         })
         callback(null, tournamentData);
     }).catch(err => {

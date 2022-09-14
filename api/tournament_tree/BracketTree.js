@@ -11,14 +11,17 @@ class BracketTree {
         this.rootNode = null;
         this.leaves = [];
         this.rank = 1;
-        this.fakeId = 1;
+        //this.fakeId = 1;
 
 
+
+
+
+    }
+    init(){
         this.createTree(1, this.maxDepth, null, false);
         this.initTree(this.rootNode, this.getByCount());
         this.setRanks(this.rootNode, 1);
-
-
     }
 
     //by count is leaf node count at bottom level for a full tree - players
@@ -154,7 +157,30 @@ class BracketTree {
             this.getNode(current.right, rank);
         }
     }
-    loadNodes(){
+    //nodelist must be in order
+    loadNodes(nodeNum, parent, nodeList, offset){
+        console.log(nodeNum);
+        let index = nodeNum-1;
+        let node = new Node(nodeList[index]);
+        if(parent == null){
+            this.rootNode = node;
+        }
+        //if odd -> we know next jump are leaves
+        if( (nodeNum / 2) % 2 !== 0){
+
+            node.left = new Node(nodeList[index-1]);
+            this.leaves.push(node.left);
+            node.left.parent = node;
+            node.right = new Node(nodeList[index+1]);
+            this.leaves.push(node.right);
+            node.right.parent = node;
+        }else {
+
+            node.parent = parent;
+            node.left = this.loadNodes((nodeNum/2)+offset,node,nodeList, offset);
+            node.right = this.loadNodes((nodeNum + (nodeNum / 2)) - offset, node, nodeList,  nodeNum / 2);
+        }
+        return node;
 
     }
     getNodesInOrder(current, nodeArray){
