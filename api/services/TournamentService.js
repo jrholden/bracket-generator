@@ -22,14 +22,14 @@ exports.saveTournament = (data, callback) => {
             playerCount: playerCount
         })
     }).then(function(tournament){
-        tournamentData = tournament;
-        return PromiseService.getSaveBracketPromise({
+        callback(null, tournament);
+       /* return PromiseService.getSaveBracketPromise({
             tournamentId: tournament._id,
             typeIndex: typeIndex,
             //get player count dynamically
             playerSlots: tournament.playerCount
-        })
-    }).then(function (bracket){
+        })*/
+    })/*.then(function (bracket){
         BracketTreeService.createBracket(bracket, function (err, bracketTree){
             if (err){
                 callback(err);
@@ -38,7 +38,7 @@ exports.saveTournament = (data, callback) => {
             //console.log(bracketTree);
         })
         callback(null, tournamentData);
-    }).catch(err => {
+    })*/.catch(err => {
         callback(err);
     })
 }

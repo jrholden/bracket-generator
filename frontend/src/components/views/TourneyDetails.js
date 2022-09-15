@@ -17,7 +17,9 @@ class TourneyDetails extends React.Component{
     }
     render() {
         if(this.state.tournament){
-            return (<h1>Tourney:: {this.state.tournament.tournament.title}</h1>)
+            return (
+                <h1>Tourney:: {this.state.tournament.tournament.title}</h1>
+            )
         }else{
             return <h1>Bad Tourney Selection</h1>
         }

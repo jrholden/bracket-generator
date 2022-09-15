@@ -4,7 +4,6 @@ const config = require('../constants');
 const BracketTree = require("../tournament_tree/BracketTree");
 const NodeService = require("./NodeService");
 const PromiseService = require("./PromiseService");
-const {saveNode} = require("./NodeService");
 
 exports.getBracket = (id) => {
 
@@ -43,9 +42,7 @@ exports.createBracket = (props, callback) => {
             callback(err);
             return;
         }
-        let testBracket = new BracketTree({playerCount:playerSlots, useStretch:true});
-        testBracket.loadNodes((savedNodes.length+1)/2, null,savedNodes,0);
-        console.log(testBracket.leaves);
+
         callback(null, bracket);
     });
 }

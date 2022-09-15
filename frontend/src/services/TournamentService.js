@@ -19,7 +19,11 @@ class TournamentService {
             }else{return res.json();}
         }).then(function(data){
             self.id = data.res._id;
-            return TestService.testData(data.res, '_id', "Save Tournament Return Data BAD");
+             if (TestService.testData(data.res, '_id', "Save Tournament Return Data BAD")){
+                 return self.id;
+             }else{
+                 return null;
+             }
 
         }).catch(err => {
             ErrorService.handleError(err, "Error Saving New Tournament");
