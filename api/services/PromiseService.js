@@ -3,6 +3,7 @@ const TournamentModel = require("../database/models/Tournament");
 const UserService = require("./UserService");
 const BracketService = require("./BracketService");
 const NodeService = require("./NodeService");
+const BracketModel = require("../database/models/Bracket");
 
 
 
@@ -73,6 +74,14 @@ exports.getBracketPromise = (bracketId) => {
             if (error) reject(error);
             resolve(bracket);
         });
+    });
+}
+exports.getBracketsForTournamentPromise = (tournamentId) => {
+    return new Promise(function (resolve, reject) {
+        BracketModel.find({tournamentId: tournamentId}, function (error,brackets){
+            if (error) reject(error);
+            else resolve(null, brackets);
+        })
     });
 }
 

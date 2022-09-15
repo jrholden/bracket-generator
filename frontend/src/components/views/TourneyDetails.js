@@ -1,5 +1,6 @@
 import React from "react";
 import TournamentService from "../../services/TournamentService";
+import BracketService from "../../services/BracketService";
 
 class TourneyDetails extends React.Component{
     constructor(props) {
@@ -9,11 +10,18 @@ class TourneyDetails extends React.Component{
     }
     componentDidMount() {
         let self = this;
+        if(!this.tourneyId) return;
         TournamentService.getOneTournament(this.tourneyId).then(function (tournament) {
             self.setState({
                 tournament: tournament
             });
-        });
+            return BracketService.getBrackets(self.tourneyId)
+        }).then(function(brackets){
+            console.log("hiiii");
+            console.log(brackets);
+        }).catch(err => {
+            alert("Could not create bracket || "+ err.message);
+        })
     }
     render() {
         if(this.state.tournament){

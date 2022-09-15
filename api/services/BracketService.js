@@ -1,6 +1,7 @@
 const BracketModel = require('../database/models/Bracket');
 const {Error} = require("mongoose");
 const UserModel = require("../database/models/User");
+const PromiseService = require('./PromiseService');
 
 exports.saveBracket = (data, callback) => {
 
@@ -19,6 +20,14 @@ exports.getBrackets = (tournamentId, callback) => {
         console.log(brackets);
         if (error) callback(error);
         else callback(null, brackets);
+    })
+}
+exports.getBracketsForTournament = (tournamentId, callback) => {
+    PromiseService.getBracketsForTournamentPromise(tournamentId).then(function(brackets){
+        console.log(brackets)
+        callback(null, brackets);
+    }).catch(err => {
+        callback(err);
     })
 }
 exports.getBracketFromId = (bracketId, callback) => {

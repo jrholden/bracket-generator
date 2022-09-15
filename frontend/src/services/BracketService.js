@@ -23,5 +23,24 @@ class BracketService {
             return false;
         })
     }
+    static getBrackets(tournamentId) {
+        return fetch(config.apiUrl + "/bracket/get/" + tournamentId, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            mode: 'cors'
+        }).then(function (res) {
+            if (!res.ok) {
+                let message = "Server Failed to fetch Brackets" + res.status + "\n" + res.statusText;
+                throw new Error(message);
+            } else {
+                return res.json();
+            }
+        }).then(function (brackets) {
+            //catch error in component
+            console.log("here");
+            return brackets;
+        })
+    }
+
 }
 export default BracketService;
