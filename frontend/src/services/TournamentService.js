@@ -47,6 +47,7 @@ class TournamentService {
             if(!data.res) return [];
             if(!TestService.testData(data.res[0], 'tournament', "Tournaments Object Invalid")) return false;
             return data.res;
+
         }).catch(err => {
             ErrorService.handleError(err, "Error getting Tournament");
             //return empty because something went wrong

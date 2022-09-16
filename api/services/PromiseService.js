@@ -4,6 +4,8 @@ const UserService = require("./UserService");
 const BracketService = require("./BracketService");
 const NodeService = require("./NodeService");
 const BracketModel = require("../database/models/Bracket");
+const {Error} = require("mongoose");
+const UserModel = require("../database/models/User");
 
 
 //couldnt decide if should have all models here or models in respective services
@@ -33,6 +35,30 @@ exports.getOnePromiseForMany = (promises, originalObj) => {
         });
     });
 }
+exports.getTournamentRelations = (tournament) => {
+    return new Promise(function (resolve, reject) {
+        let tournamentData = {};
+        let tournamentId = tournament._id;
+        tournamentData.tournament = tournament;
+        //getCreator
+        UserService.getUser(tournament.creatorId, function (err, creator) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            tournamentData.creator = creator;
+            //Get Brackets
+            BracketService.getBracketsForTournament(tournamentId, function (err, brackets) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                tournamentData.brackets = brackets;
+                resolve(tournamentData);
+            });
+        });
+    });
+}
 exports.getTournamentPromise = (id) => {
     return new Promise(function (resolve, reject) {
         TournamentModel.findById(id, function (err, tournament) {
@@ -50,7 +76,18 @@ exports.getTournamentsPromise = () => {
         });
     });
 }
+exports.getUserPromise = (userId) => {
+    return new Promise(function (resolve, reject) {
+        UserModel.findById(userId, function (error, user) {
+            if (error) {
+                return reject(new Error("Could Not Find User:: " + error.message));
+            }
+            return resolve( user);
+        });
+    })
+}
 
+//remove
 exports.getCreatorPromise = (userId) => {
     return new Promise(function (resolve, reject) {
         UserService.getUserFromId(userId, function (error, user) {
@@ -82,7 +119,7 @@ exports.getBracketsForTournamentPromise = (tournamentId) => {
     return new Promise(function (resolve, reject) {
         BracketModel.find({tournamentId: tournamentId}, function (error,brackets){
             if (error) reject(error);
-            else resolve(null, brackets);
+            else resolve( brackets);
         })
     });
 }
@@ -108,10 +145,13 @@ exports.getSaveUserPromise = (data) => {
 }
 
 exports.getSaveBracketPromise = (data) => {
+    const bracket = new BracketModel(data);
     return new Promise(function (resolve, reject) {
-        BracketService.saveBracket(data, function (err, bracket) {
-            if (err) reject(err);
-            else resolve(bracket);
+        bracket.save(function (error, bracket) {
+            if (error) {
+                return reject(new Error("UserObj could not be saved:: " + error.message));
+            }
+            return resolve( bracket);
         });
     })
 }

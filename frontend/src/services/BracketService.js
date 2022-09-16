@@ -23,6 +23,7 @@ class BracketService {
             return false;
         })
     }
+    //this is really a call to get matchups
     static getBrackets(tournamentId) {
         return fetch(config.apiUrl + "/bracket/get/" + tournamentId, {
             method: 'GET',
@@ -37,7 +38,7 @@ class BracketService {
             }
         }).then(function (brackets) {
             //catch error in component
-            return brackets;
+            return brackets.res;
         })
     }
 

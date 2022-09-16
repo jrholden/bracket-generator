@@ -16,6 +16,7 @@ class ActiveTourneys extends React.Component {
     componentDidMount() {
         const self = this;
         TournamentService.getTournaments().then(function (tournaments) {
+            console.log(tournaments);
             self.setState({
                 tournaments: tournaments
             });

@@ -6,7 +6,6 @@ class TourneyDetails extends React.Component {
     constructor(props) {
         super(props);
         this.tourneyId = props.id;
-        this.hasBrackets = false;
         this.state = {};
 
         this.generateBracket = this.generateBracket.bind(this);
@@ -25,8 +24,6 @@ class TourneyDetails extends React.Component {
             self.setState({
                 brackets: brackets
             })
-
-
         }).catch(err => {
             alert("Could not create bracket || " + err.message);
         })
@@ -34,8 +31,9 @@ class TourneyDetails extends React.Component {
 
     generateBracket() {
         console.log("Generating Bracket");
+        let self = this;
         BracketService.createBracket(this.state.tournament.tournament).then(function(brackets){
-            console.log(brackets)
+            console.log(brackets);
             self.setState({
                 brackets: brackets
             })
@@ -46,7 +44,7 @@ class TourneyDetails extends React.Component {
 
         if (this.state.tournament) {
             let bracketButton = [];
-            if (this.state.brackets) {
+            if ( !this.state.brackets || this.state.brackets.length < 1) {
 
                 bracketButton.push(
                     <div key='0' >
@@ -57,6 +55,8 @@ class TourneyDetails extends React.Component {
                         </button>
                     </div>
                 )
+            }else{
+                bracketButton.push(<p key='0'>HAVE BRACKET</p>)
             }
             return (
                 <div>

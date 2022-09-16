@@ -2,6 +2,7 @@ const UserService = require('../services/UserService');
 const PromiseService = require('./PromiseService');
 const HelperService = require("./HelperService");
 const BracketTreeService = require("./BracketTreeService");
+const BracketService = require("./BracketService");
 
 exports.saveTournament = (data, callback) => {
     //validate data
@@ -15,40 +16,53 @@ exports.saveTournament = (data, callback) => {
         //create new user (guest)
         userPromise = PromiseService.getSaveUserPromise({creatorName});
     }
-    userPromise.then(function (user){
+    userPromise.then(function (user) {
         return PromiseService.getSaveTournamentPromise({
             title: tourneyName,
             creatorId: user._id,
             playerCount: playerCount
         })
-    }).then(function(tournament){
+    }).then(function (tournament) {
         callback(null, tournament);
-       /* return PromiseService.getSaveBracketPromise({
-            tournamentId: tournament._id,
-            typeIndex: typeIndex,
-            //get player count dynamically
-            playerSlots: tournament.playerCount
-        })*/
-    })/*.then(function (bracket){
-        BracketTreeService.createBracket(bracket, function (err, bracketTree){
-            if (err){
-                callback(err);
-                return;
-            }
-            //console.log(bracketTree);
-        })
-        callback(null, tournamentData);
-    })*/.catch(err => {
+    }).catch(err => {
         callback(err);
     })
 }
+exports.getAllTournamentData = (callback) => {
+    //get All tournaments
+    let allTourneys = []
+    this.getTournaments(function (err, tournaments) {
+        if (err) {
+            callback(err);
+            return;
+        }
+        let promises = [];
+        tournaments.forEach(tournament => {
+            promises.push(PromiseService.getTournamentRelations(tournament));
+        });
+        PromiseService.getOnePromiseForMany(promises, {}).then(function(data){
+            callback(null, data.res)
+        }).catch(err => {
+            callback(err);
+        })
+    });
+}
+
+
 exports.getTournaments = (callback) => {
     PromiseService.getTournamentsPromise().then(function (tournaments) {
+        callback(null, tournaments);
+    }).catch(err => {
+        callback(err);
+    });
+
+
+    /*PromiseService.getTournamentsPromise().then(function (tournaments) {
         let promises = [];
 
         tournaments.forEach((tournament) => {
             promises.push(PromiseService.getCreatorPromise(tournament.creatorId));
-            promises.push(PromiseService.getBracketsPromise(tournament._id));
+            promises.push(BracketService.getBracketsForTournament(tournament._id));
         });
         return PromiseService.getOnePromiseForMany(promises, tournaments)
     }).then(function (data) {
@@ -63,7 +77,7 @@ exports.getTournaments = (callback) => {
         callback(null, object);
     }).catch(error => {
         callback(Error("could not get tournaments:: " + error.message));
-    })
+    })*/
 }
 exports.getOneTournament = (id, callback) => {
     PromiseService.getTournamentPromise(id).then(function (rawTourney) {
@@ -76,8 +90,8 @@ exports.getOneTournament = (id, callback) => {
     });
 }
 exports.deleteOneTournament = (id, callback) => {
-    PromiseService.getDeleteOnePromise(id).then(function(deletedDoc){
-        console.log("DELETED:: "+deletedDoc);
+    PromiseService.getDeleteOnePromise(id).then(function (deletedDoc) {
+        console.log("DELETED:: " + deletedDoc);
         callback(null, true);
     }).catch(error => {
         callback(error);

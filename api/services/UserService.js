@@ -1,5 +1,6 @@
 const UserModel = require('../database/models/User');
 const TournamentModel = require("../database/models/Tournament");
+const PromiseService = require("./PromiseService");
 
 exports.saveUser = (data, callback) => {
     //console.log(data);
@@ -19,6 +20,14 @@ exports.saveUser = (data, callback) => {
 exports.doesUserExist = () => {
     return false;
 }
+exports.getUser = (id, callback) => {
+    PromiseService.getUserPromise(id).then(function(user){
+        callback(null, user);
+    }).catch(err => {
+        callback(err);
+    })
+}
+//remove
 exports.getUserFromId = (userId, callback) => {
     UserModel.findById(userId, function (error, user) {
         if (error) {

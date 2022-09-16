@@ -28,7 +28,8 @@ exports.saveTournament = (req, res) => {
 };
 exports.getTournaments = (req, res) => {
     try {
-        TournamentService.getTournaments(function (error, tournaments) {
+        TournamentService.getAllTournamentData(function (error, tournaments) {
+            console.log("LOOOOK");
             console.log(tournaments);
             if (error) {
                 return res.status(422).json({
