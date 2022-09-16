@@ -37,7 +37,6 @@ class BracketService {
             }
         }).then(function (brackets) {
             //catch error in component
-            console.log("here");
             return brackets;
         })
     }

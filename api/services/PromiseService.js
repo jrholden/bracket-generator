@@ -6,7 +6,7 @@ const NodeService = require("./NodeService");
 const BracketModel = require("../database/models/Bracket");
 
 
-
+//couldnt decide if should have all models here or models in respective services
 exports.getNodesPromise = (bracketId) => {
     return new Promise(function (resolve, reject) {
         NodeService.getNodes(bracketId, function (err, nodes) {
@@ -60,6 +60,7 @@ exports.getCreatorPromise = (userId) => {
     });
 }
 exports.getBracketsPromise = (tournamentId) => {
+    console.log(tournamentId);
     return new Promise(function (resolve, reject) {
         BracketService.getBrackets(tournamentId, function (error, brackets){
             if (error) reject(error);
@@ -77,6 +78,7 @@ exports.getBracketPromise = (bracketId) => {
     });
 }
 exports.getBracketsForTournamentPromise = (tournamentId) => {
+    console.log(tournamentId)
     return new Promise(function (resolve, reject) {
         BracketModel.find({tournamentId: tournamentId}, function (error,brackets){
             if (error) reject(error);

@@ -2,16 +2,17 @@ const BracketTreeService = require('../services/BracketTreeService');
 const BracketService = require('../services/BracketService')
 exports.createBracket = (req,res) => {
     try {
-        console.log(req.body);
         let props = req.body;
-        BracketTreeService.createBracket(props, function (err,data){
+        BracketService.createBracket(props, function (err,data){
             if (err) {
                 console.log("CreateBracketError:: " + err);
                 res.status(400).json({
                     res: false,
                     err
                 });
+                return;
             }
+            console.log(data);
             res.status(200).json({
                 res: data
             });

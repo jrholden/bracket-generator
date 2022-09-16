@@ -1,5 +1,3 @@
-
-
 const config = require('../constants');
 const BracketTree = require("../tournament_tree/BracketTree");
 const NodeService = require("./NodeService");
@@ -19,30 +17,25 @@ exports.saveTree = (bracketTree, callback) => {
         node.bracketId = bracketTree.bracketId;
         promises.push(PromiseService.getSaveNodePromise(node));
     });
-    PromiseService.getOnePromiseForMany(promises, {}).then(function (savedNodes){
+    PromiseService.getOnePromiseForMany(promises, {}).then(function (savedNodes) {
         callback(null, savedNodes.res);
     }).catch(err => {
         callback(err);
     })
 
 }
-exports.getMatches = (bracketTree) => {
-    return bracketTree.getAllMatches();
+exports.getMatches = (bracketTree,callback) => {
+    console.log(bracketTree);
+    callback(null, bracketTree.getAllMatches());
 }
 exports.createBracket = (props, callback) => {
-    let {playerSlots, typeIndex} = props;
+    let {playerCount, typeIndex} = props;
 
     let type = config.bracket.tournamentTypes[typeIndex];
-    let bracket = new BracketTree({playerCount:playerSlots, useStretch:true});
+    let bracket = new BracketTree({playerCount: playerCount, useStretch: true});
     bracket.bracketId = props._id;
     bracket.init();
 
-    this.saveTree(bracket, function(err, savedNodes) {
-        if(err) {
-            callback(err);
-            return;
-        }
 
-        callback(null, bracket);
-    });
+    callback(null, bracket);
 }

@@ -110,6 +110,7 @@ class BracketTree {
 
 
     setSubtree(subRoot, byCount) {
+        console.log(byCount);
         let leftNode = subRoot.left;
         let rightNode = subRoot.right;
         this.leaves.push(leftNode.left);
@@ -137,7 +138,7 @@ class BracketTree {
                 byCount--;
             }
             //one by stick to normal
-            else {
+            else if(byCount > 0){
                 leftNode.left.isNull = true;
                 byCount--;
             }

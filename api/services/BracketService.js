@@ -2,10 +2,32 @@ const BracketModel = require('../database/models/Bracket');
 const {Error} = require("mongoose");
 const UserModel = require("../database/models/User");
 const PromiseService = require('./PromiseService');
+const BracketTreeService = require('./BracketTreeService');
 
+exports.createBracket = (data, callback) => {
+    BracketTreeService.createBracket(data, function(err, bracket){
+        if(err) {
+            callback(new Error("Could not create TREE:: "+err));
+            return;
+        }
+        BracketTreeService.saveTree(bracket, function(err,data){
+            if(err) {
+                callback(new Error("Could not SAVE TREE "+err));
+                return;
+            }
+            BracketTreeService.getMatches(bracket, function(err, allMatches){
+                if(err) {
+                    callback(new Error("ERROR GETTING MATCHES "+err));
+                    return;
+                }
+                callback(null, allMatches);
+            })
+        })
+    })
+}
+
+//use promise service
 exports.saveBracket = (data, callback) => {
-
-    console.log(data);
     const bracket = new BracketModel(data);
     bracket.save(function (error, bracket) {
         if (error) {
@@ -17,14 +39,12 @@ exports.saveBracket = (data, callback) => {
 }
 exports.getBrackets = (tournamentId, callback) => {
     BracketModel.find({tournamentId: tournamentId}, function (error,brackets){
-        console.log(brackets);
         if (error) callback(error);
         else callback(null, brackets);
     })
 }
 exports.getBracketsForTournament = (tournamentId, callback) => {
     PromiseService.getBracketsForTournamentPromise(tournamentId).then(function(brackets){
-        console.log(brackets)
         callback(null, brackets);
     }).catch(err => {
         callback(err);
